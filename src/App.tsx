@@ -1,18 +1,15 @@
-import React from "react";
+import { FC, useEffect } from "react";
 
-// @ts-ignore
-import logo from "./logo.svg";
+import { ExpressionEvaluation } from "utils";
 
-import "./App.css";
-
-function App() {
-  console.log("sadas da sd");
+const App: FC = () => {
+  useEffect(() => {
+    ExpressionEvaluation.calculate("3 + 4 * 2 / ( 1 - 5 ) * 3");
+  }, []);
 
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
@@ -30,6 +27,6 @@ function App() {
       </header>
     </div>
   );
-}
+};
 
 export default App;

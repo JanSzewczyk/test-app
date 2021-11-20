@@ -13,7 +13,7 @@ globals:
 settings:
   react:
     version: "detect"
-parser: '@typescript-eslint/parser'
+parser: "@typescript-eslint/parser"
 parserOptions:
   ecmaFeatures:
     jsx: true
@@ -21,7 +21,7 @@ parserOptions:
   sourceType: module
 plugins:
   - react
-  - '@typescript-eslint'
+  - "@typescript-eslint"
 rules:
   camelcase: warn
   no-console: warn
@@ -29,7 +29,7 @@ rules:
   no-invalid-this: off
   "@typescript-eslint/no-use-before-define": off
   no-unused-vars: "off"
-  "@typescript-eslint/no-unused-vars": [ "warn" ]
+  "@typescript-eslint/no-unused-vars": ["warn"]
   require-jsdoc: off
   comma-dangle: off
   quotes:
@@ -37,6 +37,7 @@ rules:
     - "double"
   object-curly-spacing: off
   linebreak-style: off
+  no-loop-func: off
 
   comma-spacing: off
   guard-for-in: off
@@ -48,4 +49,3 @@ rules:
   react/react-in-jsx-scope: off
 
   react-hooks/exhaustive-deps: warn
-
