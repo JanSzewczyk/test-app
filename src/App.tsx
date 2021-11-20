@@ -1,31 +1,25 @@
 import { FC, useEffect } from "react";
+import { Container } from "@mui/material";
 
 import { ExpressionEvaluation } from "utils";
 
+import Calculator from "./components/Calculator";
+
 const App: FC = () => {
   useEffect(() => {
-    ExpressionEvaluation.calculate("3 + 4 * 2 / ( 1 - 5 ) * 3");
+    ExpressionEvaluation.calculate("13/(3*(4/2.0))+34/4*(34)");
   }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-
-        <br />
-
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container
+      component={"main"}
+      maxWidth={"md"}
+      sx={{
+        py: 6
+      }}
+    >
+      <Calculator />
+    </Container>
   );
 };
 
