@@ -13,6 +13,12 @@ const Calculator: FC = () => {
     setEquationResultList((prevState) => [newEquationResult, ...prevState]);
   };
 
+  const handleRemoveEquationResult = (id: string): void => {
+    setEquationResultList((prevState) =>
+      prevState.filter((equationResult) => equationResult.id !== id)
+    );
+  };
+
   return (
     <Paper elevation={6}>
       <Box py={6} px={4}>
@@ -26,7 +32,10 @@ const Calculator: FC = () => {
           }}
         />
 
-        <CalculatorForm onAddNewEquation={handleAddNewEquationResult} />
+        <CalculatorForm
+          onAddNewEquation={handleAddNewEquationResult}
+          lastResult={equationResultList[0] || null}
+        />
 
         <Divider
           sx={{
@@ -34,7 +43,10 @@ const Calculator: FC = () => {
           }}
         />
 
-        <CalculatorResultView equationResultList={equationResultList} />
+        <CalculatorResultView
+          equationResultList={equationResultList}
+          onRemoveEquationResult={handleRemoveEquationResult}
+        />
       </Box>
     </Paper>
   );

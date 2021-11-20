@@ -1,22 +1,6 @@
 import { stack } from "../stack";
 import { isNumber } from "utils";
 
-// type PrecedenceType = Record<
-//   Exclude<
-//     MathematicalOperation,
-//     MathematicalOperation.LEFT_PARENTHESIS | MathematicalOperation.RIGHT_PARENTHESIS
-//   >,
-//   number
-// >;
-//
-// type AssociativityType = Record<
-//   Exclude<
-//     MathematicalOperation,
-//     MathematicalOperation.LEFT_PARENTHESIS | MathematicalOperation.RIGHT_PARENTHESIS
-//   >,
-//   OperatorAssociativity
-// >;
-
 export class ExpressionEvaluation {
   static operators = "-+/*";
   static precedence: Record<string, number> = { "*": 3, "/": 3, "+": 2, "-": 2 };
@@ -24,6 +8,11 @@ export class ExpressionEvaluation {
   static calculate = (mathematicalExpression: string): number => {
     // preprocess string
     mathematicalExpression = this.removeWhiteSpaces(mathematicalExpression);
+
+    // pre validation math expression
+    if (RegExp("\\b/0\\b").test(mathematicalExpression)) {
+      throw new Error("Cannot be divided by 0");
+    }
 
     // get postfix notation array from getPostfix Notation string
     const postfixNotationArray: string[] = this.getPostfixNotation(mathematicalExpression);
@@ -92,6 +81,15 @@ export class ExpressionEvaluation {
         }
 
         operatorStack.pop(); // pop (, but not onto the output queue
+      } else {
+        // undefined characters
+        if (token.match(/[a-z]/i)) {
+          throw new Error(
+            `Equation should not contain letters, found the wrong letter is: '${token}'`
+          );
+        } else {
+          throw new Error(`Invalid character found: '${token}'`);
+        }
       }
     }
 
@@ -106,7 +104,7 @@ export class ExpressionEvaluation {
         s.push(Number(token));
       } else {
         if (s.length < 2) {
-          throw new Error(`${token}: ${s}: insufficient operands.`);
+          throw new Error("Insufficient operands");
         }
 
         const o2 = s.pop() as number;
@@ -129,13 +127,13 @@ export class ExpressionEvaluation {
             s.push(Math.pow(o1, o2));
             break;
           default:
-            throw new Error(`Unrecognized operator: [${token}]`);
+            throw new Error(`Unrecognized operator: '${token}'`);
         }
       }
     });
 
     if (s.length > 1) {
-      throw new Error(`${s}: insufficient operators.`);
+      throw new Error("Insufficient operators");
     }
 
     return s[0];

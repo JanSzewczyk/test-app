@@ -15,17 +15,19 @@ interface CalculatorFormState {
 }
 
 interface CalculatorFormProps {
+  lastResult: EquationResult | null;
   onAddNewEquation: (newEquationResult: EquationResult) => void;
 }
 
-const CalculatorForm: FC<CalculatorFormProps> = ({ onAddNewEquation }) => {
+const CalculatorForm: FC<CalculatorFormProps> = ({ onAddNewEquation, lastResult }) => {
   const [result, setResult] = useState<number | null>(null);
 
   const {
     register,
     reset,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    setError
   } = useForm<CalculatorFormState>({
     defaultValues: {
       mathematicalExpression: ""
@@ -33,19 +35,26 @@ const CalculatorForm: FC<CalculatorFormProps> = ({ onAddNewEquation }) => {
   });
 
   const handleCalculate = (formData: CalculatorFormState): void => {
-    try {
-      const expressionResult = ExpressionEvaluation.calculate(formData.mathematicalExpression);
+    if (!lastResult || (lastResult && lastResult.expression !== formData.mathematicalExpression)) {
+      try {
+        const expressionResult = ExpressionEvaluation.calculate(formData.mathematicalExpression);
 
-      setResult(expressionResult);
+        setResult(expressionResult);
 
-      onAddNewEquation({
-        id: uuidV4(),
-        expression: formData.mathematicalExpression,
-        result: expressionResult,
-        timestamp: new Date()
-      });
-    } catch (e) {
-      console.warn(e);
+        onAddNewEquation({
+          id: uuidV4(),
+          expression: formData.mathematicalExpression,
+          result: expressionResult,
+          timestamp: new Date()
+        });
+      } catch (e) {
+        const errorMessage = (e as Error).message;
+
+        setError("mathematicalExpression", {
+          type: "errorHandler",
+          message: errorMessage
+        });
+      }
     }
   };
 
