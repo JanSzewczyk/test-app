@@ -1,0 +1,51 @@
+env:
+  browser: true
+  es2021: true
+  node: true
+extends:
+  - react-app
+  - plugin:react/recommended
+  - google
+  - prettier
+globals:
+  Atomics: readonly
+  SharedArrayBuffer: readonly
+settings:
+  react:
+    version: "detect"
+parser: '@typescript-eslint/parser'
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+  ecmaVersion: 12
+  sourceType: module
+plugins:
+  - react
+  - '@typescript-eslint'
+rules:
+  camelcase: warn
+  no-console: warn
+  no-use-before-define: off
+  no-invalid-this: off
+  "@typescript-eslint/no-use-before-define": off
+  no-unused-vars: "off"
+  "@typescript-eslint/no-unused-vars": [ "warn" ]
+  require-jsdoc: off
+  comma-dangle: off
+  quotes:
+    - warn
+    - "double"
+  object-curly-spacing: off
+  linebreak-style: off
+
+  comma-spacing: off
+  guard-for-in: off
+  prefer-const: warn
+
+  react/display-name: off
+  react/prop-types: off
+  react/no-unescaped-entities: off
+  react/react-in-jsx-scope: off
+
+  react-hooks/exhaustive-deps: warn
+
