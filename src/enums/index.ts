@@ -6,8 +6,3 @@ export enum MathematicalOperation {
   LEFT_PARENTHESIS = "(",
   RIGHT_PARENTHESIS = ")"
 }
-
-export enum OperatorAssociativity {
-  RIGHT = "Right",
-  LEFT = "Left"
-}

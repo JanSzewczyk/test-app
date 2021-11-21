@@ -5,7 +5,7 @@ import { v4 as uuidV4 } from "uuid";
 import CalculateIcon from "@mui/icons-material/Calculate";
 import ClearIcon from "@mui/icons-material/Clear";
 
-import { ExpressionEvaluation } from "utils";
+import { ExpressionEvaluation, MathematicalExpressionValidator } from "utils";
 import { EquationResult } from "types";
 
 import AppTextarea from "components/UI/AppTextarea";
@@ -29,6 +29,7 @@ const CalculatorForm: FC<CalculatorFormProps> = ({ onAddNewEquation, lastResult 
     formState: { errors },
     setError
   } = useForm<CalculatorFormState>({
+    reValidateMode: "onSubmit",
     defaultValues: {
       mathematicalExpression: ""
     }
@@ -70,7 +71,15 @@ const CalculatorForm: FC<CalculatorFormProps> = ({ onAddNewEquation, lastResult 
       </Typography>
       <AppTextarea
         {...register("mathematicalExpression", {
-          required: "Required value"
+          required: "Required value",
+          validate: {
+            lettersOccurrence: (value) =>
+              MathematicalExpressionValidator.lettersOccurrence(value) ||
+              "Equation should not contain letters",
+            parenthesesCorrectness: (value) =>
+              MathematicalExpressionValidator.parenthesesCorrectness(value) ||
+              "Problem with parentheses, incorrect quantity or usage"
+          }
         })}
       />
       {errors.mathematicalExpression && (
